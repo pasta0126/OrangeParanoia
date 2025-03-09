@@ -5,6 +5,8 @@ VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrangeParanoia.Api", "OrangeParanoia.Api\OrangeParanoia.Api.csproj", "{A31F75EE-B8F6-4024-BA0F-3E1F243E71A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrangeParanoia.Nuget", "OrangeParanoia.Nuget\OrangeParanoia.Nuget.csproj", "{B1BAAC23-4FE3-4525-99E2-9FAA6A8B3561}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A31F75EE-B8F6-4024-BA0F-3E1F243E71A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A31F75EE-B8F6-4024-BA0F-3E1F243E71A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A31F75EE-B8F6-4024-BA0F-3E1F243E71A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1BAAC23-4FE3-4525-99E2-9FAA6A8B3561}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1BAAC23-4FE3-4525-99E2-9FAA6A8B3561}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1BAAC23-4FE3-4525-99E2-9FAA6A8B3561}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1BAAC23-4FE3-4525-99E2-9FAA6A8B3561}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
