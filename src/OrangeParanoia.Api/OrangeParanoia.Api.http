@@ -1,0 +1,6 @@
+@OrangeParanoia.Api_HostAddress = http://localhost:5058
+
+GET {{OrangeParanoia.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
