@@ -4,6 +4,7 @@ namespace OrangeParanoia.Services
 {
     public class CardService(IArrayService arrayService) : ICardService
     {
+        private readonly IArrayService _arrayService = arrayService;
         private readonly Random _random = new();
 
         public List<string> GetTarotCards(int count)
@@ -11,36 +12,40 @@ namespace OrangeParanoia.Services
             if (count < 1) count = 1;
 
             string[] tarotMajorArcana =
-                [
-                    "The Fool",
-                    "The Magician",
-                    "The High Priestess",
-                    "The Empress",
-                    "The Emperor",
-                    "The Hierophant",
-                    "The Lovers",
-                    "The Chariot",
-                    "Strength",
-                    "The Hermit",
-                    "Wheel of Fortune",
-                    "Justice",
-                    "The Hanged Man",
-                    "Death",
-                    "Temperance",
-                    "The Devil",
-                    "The Tower",
-                    "The Star",
-                    "The Moon",
-                    "The Sun",
-                    "Judgement",
-                    "The World"
-                ];
+            [
+                "1. The Fool",
+                "2. The Magician",
+                "3. The High Priestess",
+                "4. The Empress",
+                "5. The Emperor",
+                "6. The Hierophant",
+                "7. The Lovers",
+                "8. The Chariot",
+                "9. Strength",
+                "10. The Hermit",
+                "11. Wheel of Fortune",
+                "12. Justice",
+                "13. The Hanged Man",
+                "14. Death",
+                "15. Temperance",
+                "16. The Devil",
+                "17. The Tower",
+                "18. The Star",
+                "19. The Moon",
+                "20. The Sun",
+                "21. Judgement",
+                "22. The World"
+            ];
+
+            var deck = tarotMajorArcana.ToList();
+            count = Math.Min(count, deck.Count);
 
             var result = new List<string>();
-
             for (int i = 0; i < count; i++)
             {
-                result.Add(arrayService.GetRandomValue(tarotMajorArcana));
+                int index = _random.Next(deck.Count);
+                result.Add(deck[index]);
+                deck.RemoveAt(index);
             }
 
             return result;
@@ -53,14 +58,23 @@ namespace OrangeParanoia.Services
             string[] ranks = ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"];
             string[] suits = ["Clubs", "Diamonds", "Hearts", "Spades"];
 
-            var result = new List<string>();
+            var deck = new List<string>();
+            foreach (var suit in suits)
+            {
+                foreach (var rank in ranks)
+                {
+                    deck.Add($"{rank} of {suit}");
+                }
+            }
 
+            count = Math.Min(count, deck.Count);
+
+            var result = new List<string>();
             for (int i = 0; i < count; i++)
             {
-                var rank = arrayService.GetRandomValue(ranks);
-                var suit = arrayService.GetRandomValue(suits);
-
-                result.Add($"{rank} of {suit}");
+                int index = _random.Next(deck.Count);
+                result.Add(deck[index]);
+                deck.RemoveAt(index);
             }
 
             return result;
@@ -73,14 +87,23 @@ namespace OrangeParanoia.Services
             string[] ranks = ["As", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete", "Sota", "Caballo", "Rey"];
             string[] suits = ["Oros", "Copas", "Espadas", "Bastos"];
 
-            var result = new List<string>();
+            var deck = new List<string>();
+            foreach (var suit in suits)
+            {
+                foreach (var rank in ranks)
+                {
+                    deck.Add($"{rank} de {suit}");
+                }
+            }
 
+            count = Math.Min(count, deck.Count);
+
+            var result = new List<string>();
             for (int i = 0; i < count; i++)
             {
-                var rank = arrayService.GetRandomValue(ranks);
-                var suit = arrayService.GetRandomValue(suits);
-
-                result.Add($"{rank} de {suit}");
+                int index = _random.Next(deck.Count);
+                result.Add(deck[index]);
+                deck.RemoveAt(index);
             }
 
             return result;
@@ -90,39 +113,41 @@ namespace OrangeParanoia.Services
         {
             if (count < 1) count = 1;
 
-            var result = new List<string>();
-
             string[] colors = ["Red", "Blue", "Green", "Yellow"];
             string[] numberCards = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
             string[] actionCards = ["Skip", "Reverse", "Draw Two"];
             string[] wildCards = ["Wild", "Wild Draw Four"];
 
+            var deck = new List<string>();
+
+            foreach (var color in colors)
+            {
+                deck.Add($"{color} 0");
+
+                for (int i = 1; i < numberCards.Length; i++)
+                {
+                    deck.Add($"{color} {numberCards[i]}");
+                }
+
+                foreach (var action in actionCards)
+                {
+                    deck.Add($"{color} {action}");
+                }
+            }
+
+            foreach (var wild in wildCards)
+            {
+                deck.Add(wild);
+            }
+
+            count = Math.Min(count, deck.Count);
+
+            var result = new List<string>();
             for (int i = 0; i < count; i++)
             {
-                // 20% chance to draw a wild card; 80% chance for a colored card.
-                if (_random.NextDouble() < 0.2)
-                {
-                    var wild = arrayService.GetRandomValue(wildCards);
-
-                    result.Add(wild);
-                }
-                else
-                {
-                    var color = arrayService.GetRandomValue(colors);
-
-                    if (_random.NextDouble() < 0.7)
-                    {
-                        var number = arrayService.GetRandomValue(numberCards);
-
-                        result.Add($"{color} {number}");
-                    }
-                    else
-                    {
-                        var action = arrayService.GetRandomValue(actionCards);
-
-                        result.Add($"{color} {action}");
-                    }
-                }
+                int index = _random.Next(deck.Count);
+                result.Add(deck[index]);
+                deck.RemoveAt(index);
             }
 
             return result;
