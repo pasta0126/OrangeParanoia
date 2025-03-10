@@ -8,6 +8,8 @@
 
 - [Overview](#overview)
 - [Endpoint Groups](#endpoint-groups)
+  - [Answers](#answers)
+  - [Cards](#cards)
   - [Numbers](#numbers)
   - [Dates](#dates)
   - [Progressions](#progressions)
@@ -26,6 +28,42 @@ The Orange Paranoia API exposes several endpoint groups, each providing a specif
 
 ## Endpoint Groups
 
+### Answers
+
+Endpoints in the **Answers** group generate random responses for decision-making and fun queries.
+
+- **GET /answer/magic8ball**  
+  Returns a random Magic 8-Ball style answer as plain text.
+
+- **GET /answer/yesno**  
+  Returns a random Yes/No answer as plain text.
+
+- **GET /answer/truefalse**  
+  Returns a random True/False answer as plain text.
+
+---
+
+### Cards
+
+Endpoints in the **Cards** group generate random card selections from various decks.
+
+- **GET /card/tarot**  
+  Returns a list of randomly selected Tarot cards (including the card number and name) in English.  
+  **Query Parameter:**  
+  - `count` (integer): Number of cards to return (minimum 1, maximum 3).
+
+- **GET /card/poker**  
+  Returns a list of randomly selected Poker cards in English.  
+  **Query Parameter:**  
+  - `count` (integer): Number of cards to return (minimum 1, maximum 5).
+
+- **GET /card/spanish**  
+  Returns a list of randomly selected Spanish deck cards in Spanish.  
+  **Query Parameter:**  
+  - `count` (integer): Number of cards to return (minimum 1, maximum is the deck size).
+
+---
+
 ### Numbers
 
 Endpoints in the **Numbers** group generate random numerical values of different types, such as integers, decimals, doubles, and floats. You can also generate random decimals within a specified range and precision.
@@ -34,7 +72,7 @@ Endpoints in the **Numbers** group generate random numerical values of different
 - **GET /number/random/decimal**: Returns a random decimal number. Optionally accepts minimum and maximum values.
 - **GET /number/random/double**: Returns a random double. Optionally accepts minimum and maximum values.
 - **GET /number/random/float**: Returns a random float. Optionally accepts minimum and maximum values.
-- **GET /number/random/decimal-range**: Returns a random decimal number within a specified range with configurable precision. Query parameters include `min`, `max`, and `precision`.
+- **GET /number/random/decimal-range**: Returns a random decimal number within a specified range with configurable precision. Query parameters include `min`, `max`, and `decimals`.
 
 ---
 
@@ -86,7 +124,8 @@ These endpoints leverage different hashing methods to generate consistent and ra
 
 The **Arrays** group provides an endpoint to select a random element from an array. This is useful when you need to pick a random item from a list of items.
 
-- **GET /array/random**: Accepts an array of elements (e.g., strings) in the request body and returns one randomly selected element. If the array is empty or null, it returns a default value.
+- **POST /array/random**:  
+  Accepts an array of elements (e.g., strings) in the request body and returns one randomly selected element. If the array is empty or null, it returns a default value.
 
 ---
 
@@ -101,8 +140,3 @@ The API groups endpoints by functionality, making it easy to find and integrate 
 ## License
 
 This project is licensed under [The Unlicense](https://unlicense.org/).
-
----
-
-Feel free to explore and integrate the Orange Paranoia API into your projects to generate random data efficiently and effectively!
-
