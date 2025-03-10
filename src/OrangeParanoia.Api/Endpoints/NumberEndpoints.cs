@@ -20,30 +20,8 @@ namespace OrangeParanoia.Api.Endpoints
             numberGroup.MapGet("/random/float", (INumberService numberService, float? min, float? max) =>
                 numberService.GetRandomNumber<float>(min, max));
 
-            numberGroup.MapGet("/random/decimal-range", (INumberService numberService, HttpRequest request) =>
-            {
-                int precision = 2;
-                decimal min = 0;
-                decimal max = 1;
-
-                if (request.Query.TryGetValue("precision", out var precisionValue) &&
-                    int.TryParse(precisionValue, out var p))
-                {
-                    precision = p;
-                }
-                if (request.Query.TryGetValue("min", out var minValue) &&
-                    decimal.TryParse(minValue, out var m))
-                {
-                    min = m;
-                }
-                if (request.Query.TryGetValue("max", out var maxValue) &&
-                    decimal.TryParse(maxValue, out var M))
-                {
-                    max = M;
-                }
-
-                return numberService.GetRandomDecimalInRange(min, max, precision);
-            });
+            numberGroup.MapGet("/random/decimal-range", (INumberService numberService, decimal? min, decimal? max, int? decimals) =>
+                numberService.GetRandomDecimalInRange(min, max, decimals));
         }
     }
 }

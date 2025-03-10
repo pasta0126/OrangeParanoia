@@ -54,7 +54,7 @@ namespace OrangeParanoia.Services
 
         private BigInteger GetLucasBig(int n)
         {
-            if (n == 0) return 2;
+            if (n <= 0) return 2;
             if (n == 1) return 1;
             if (_cacheLucas.TryGetValue(n, out BigInteger value))
                 return value;
@@ -71,7 +71,7 @@ namespace OrangeParanoia.Services
 
         private BigInteger GetPellBig(int n)
         {
-            if (n == 0) return 0;
+            if (n <= 0) return 0;
             if (n == 1) return 1;
             if (_cachePell.TryGetValue(n, out BigInteger value))
                 return value;
@@ -88,11 +88,9 @@ namespace OrangeParanoia.Services
 
         private BigInteger GetHofstadterQBig(int n)
         {
-            if (n <= 0) return 0;
-            if (n == 1 || n == 2) return 1;
+            if (n <= 2) return 1;
             if (_cacheHofstadterQ.TryGetValue(n, out BigInteger value))
                 return value;
-            // Nota: la definición original de Hofstadter Q utiliza recursión en base a índices
             int index1 = n - (int)GetHofstadterQBig(n - 1);
             int index2 = n - (int)GetHofstadterQBig(n - 2);
             BigInteger result = GetHofstadterQBig(index1) + GetHofstadterQBig(index2);
@@ -102,6 +100,7 @@ namespace OrangeParanoia.Services
 
         public double GetLogisticMap(int n)
         {
+            if (n < 0) n = 0;
             double r = 4.0;
             double x = 0.2;
             for (int i = 0; i < n; i++)
@@ -119,7 +118,7 @@ namespace OrangeParanoia.Services
 
         private BigInteger GetExoticBig(int n)
         {
-            if (n == 0) return 1;
+            if (n <= 0) return 1;
             if (n == 1) return 1;
             if (_cacheExotic.TryGetValue(n, out BigInteger cachedValue))
                 return cachedValue;

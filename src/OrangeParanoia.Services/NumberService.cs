@@ -83,15 +83,19 @@ namespace OrangeParanoia.Services
             return (dmin, dmax, sample);
         }
 
-        public decimal GetRandomDecimalInRange(decimal min = 0, decimal max = 1, int decimals = 2)
+        public decimal GetRandomDecimalInRange(decimal? min = 0, decimal? max = 1, int? decimals = 2)
         {
-            if (decimals < 0)
-                decimals = 2;
+            int dec = (decimals.HasValue && decimals.Value >= 0) ? decimals.Value : 2;
+            decimal minVal = min ?? 0;
+            decimal maxVal = max ?? 1;
             double sample = _random.NextDouble();
-            if (max == decimal.MaxValue && sample > InclusiveThreshold)
-                return max;
-            decimal randomValue = min + ((decimal)sample * (max - min));
-            return Math.Round(randomValue, decimals);
+
+            if (maxVal == decimal.MaxValue && sample > InclusiveThreshold)
+                return maxVal;
+
+            decimal randomValue = minVal + ((decimal)sample * (maxVal - minVal));
+            return Math.Round(randomValue, dec);
         }
+
     }
 }
