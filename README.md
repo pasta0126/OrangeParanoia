@@ -86,7 +86,7 @@ These endpoints leverage different hashing methods to generate consistent and ra
 
 The **Arrays** group provides an endpoint to select a random element from an array. This is useful when you need to pick a random item from a list of items.
 
-- **POST /array/random**: Accepts an array of elements (e.g., strings) in the request body and returns one randomly selected element. If the array is empty or null, it returns a default value.
+- **GET /array/random**: Accepts an array of elements (e.g., strings) in the request body and returns one randomly selected element. If the array is empty or null, it returns a default value.
 
 ---
 
