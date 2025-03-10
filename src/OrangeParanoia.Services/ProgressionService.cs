@@ -1,124 +1,132 @@
 ﻿using OrangeParanoia.Services.Interfaces;
+using System.Numerics;
 
 namespace OrangeParanoia.Services
 {
     public class ProgressionService : IProgressionService
     {
-        private readonly Dictionary<int, int> _cacheFibonacci = [];
-        private readonly Dictionary<int, int> _cacheJacobsthal = [];
-        private readonly Dictionary<int, int> _cacheLucas = [];
-        private readonly Dictionary<int, int> _cachePell = [];
-        private readonly Dictionary<int, int> _cacheHofstadterQ = [];
-        private readonly Dictionary<int, int> _cacheExotic = [];
+        private readonly Dictionary<int, BigInteger> _cacheFibonacci = new();
+        private readonly Dictionary<int, BigInteger> _cacheJacobsthal = new();
+        private readonly Dictionary<int, BigInteger> _cacheLucas = new();
+        private readonly Dictionary<int, BigInteger> _cachePell = new();
+        private readonly Dictionary<int, BigInteger> _cacheHofstadterQ = new();
+        private readonly Dictionary<int, BigInteger> _cacheExotic = new();
 
-        public int GetFibonacci(int n)
+        public string GetFibonacci(int n)
+        {
+            BigInteger result = GetFibonacciBig(n);
+            return result.ToString();
+        }
+
+        private BigInteger GetFibonacciBig(int n)
         {
             if (n <= 0) return 0;
             if (n == 1) return 1;
-            if (_cacheFibonacci.TryGetValue(n, out int value))
-            {
+            if (_cacheFibonacci.TryGetValue(n, out BigInteger value))
                 return value;
-            }
-
-            int result = GetFibonacci(n - 1) + GetFibonacci(n - 2);
-
+            BigInteger result = GetFibonacciBig(n - 1) + GetFibonacciBig(n - 2);
             _cacheFibonacci[n] = result;
-
             return result;
         }
 
-        public int GetJacobsthal(int n)
+        public string GetJacobsthal(int n)
+        {
+            BigInteger result = GetJacobsthalBig(n);
+            return result.ToString();
+        }
+
+        private BigInteger GetJacobsthalBig(int n)
         {
             if (n <= 0) return 0;
             if (n == 1) return 1;
-            if (_cacheJacobsthal.TryGetValue(n, out int value))
-            {
+            if (_cacheJacobsthal.TryGetValue(n, out BigInteger value))
                 return value;
-            }
-
-            int result = GetJacobsthal(n - 1) + 2 * GetJacobsthal(n - 2);
-
+            BigInteger result = GetJacobsthalBig(n - 1) + 2 * GetJacobsthalBig(n - 2);
             _cacheJacobsthal[n] = result;
-
             return result;
         }
 
-        public int GetLucas(int n)
+        public string GetLucas(int n)
+        {
+            BigInteger result = GetLucasBig(n);
+            return result.ToString();
+        }
+
+        private BigInteger GetLucasBig(int n)
         {
             if (n == 0) return 2;
             if (n == 1) return 1;
-            if (_cacheLucas.TryGetValue(n, out int value))
-            {
+            if (_cacheLucas.TryGetValue(n, out BigInteger value))
                 return value;
-            }
-
-            int result = GetLucas(n - 1) + GetLucas(n - 2);
-
+            BigInteger result = GetLucasBig(n - 1) + GetLucasBig(n - 2);
             _cacheLucas[n] = result;
-
             return result;
         }
 
-        public int GetPell(int n)
+        public string GetPell(int n)
+        {
+            BigInteger result = GetPellBig(n);
+            return result.ToString();
+        }
+
+        private BigInteger GetPellBig(int n)
         {
             if (n == 0) return 0;
             if (n == 1) return 1;
-            if (_cachePell.TryGetValue(n, out int value))
-            {
+            if (_cachePell.TryGetValue(n, out BigInteger value))
                 return value;
-            }
-
-            int result = 2 * GetPell(n - 1) + GetPell(n - 2);
-
+            BigInteger result = 2 * GetPellBig(n - 1) + GetPellBig(n - 2);
             _cachePell[n] = result;
-
             return result;
         }
 
-        public int GetHofstadterQ(int n)
+        public string GetHofstadterQ(int n)
         {
-            if (n <= 0) return 0; // throw new ArgumentException("Hofstadter Q está definida para n >= 1");
+            BigInteger result = GetHofstadterQBig(n);
+            return result.ToString();
+        }
+
+        private BigInteger GetHofstadterQBig(int n)
+        {
+            if (n <= 0) return 0;
             if (n == 1 || n == 2) return 1;
-            if (_cacheHofstadterQ.TryGetValue(n, out int value))
-            {
+            if (_cacheHofstadterQ.TryGetValue(n, out BigInteger value))
                 return value;
-            }
-
-            int result = GetHofstadterQ(n - GetHofstadterQ(n - 1)) + GetHofstadterQ(n - GetHofstadterQ(n - 2));
-
+            // Nota: la definición original de Hofstadter Q utiliza recursión en base a índices
+            int index1 = n - (int)GetHofstadterQBig(n - 1);
+            int index2 = n - (int)GetHofstadterQBig(n - 2);
+            BigInteger result = GetHofstadterQBig(index1) + GetHofstadterQBig(index2);
             _cacheHofstadterQ[n] = result;
-
             return result;
         }
 
         public double GetLogisticMap(int n)
         {
             double r = 4.0;
-            double x0 = 0.2;
-            double x = x0;
-
+            double x = 0.2;
             for (int i = 0; i < n; i++)
             {
                 x = r * x * (1 - x);
             }
-
             return x;
         }
 
-        public int GetExotic(int n)
+        public string GetExotic(int n)
+        {
+            BigInteger result = GetExoticBig(n);
+            return result.ToString();
+        }
+
+        private BigInteger GetExoticBig(int n)
         {
             if (n == 0) return 1;
             if (n == 1) return 1;
-            if (_cacheExotic.TryGetValue(n, out int cachedValue))
-            {
+            if (_cacheExotic.TryGetValue(n, out BigInteger cachedValue))
                 return cachedValue;
-            }
-
             int groupSize = 3;
             int group = n / groupSize;
             int sign = (group % 2 == 0) ? 1 : -1;
-
-            int result = sign * (Math.Abs(GetExotic(n - 1)) + Math.Abs(GetExotic(n - 2)));
+            BigInteger result = sign * (BigInteger.Abs(GetExoticBig(n - 1)) + BigInteger.Abs(GetExoticBig(n - 2)));
             _cacheExotic[n] = result;
             return result;
         }

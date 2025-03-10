@@ -2,12 +2,12 @@
 {
     public interface IProgressionService
     {
-        int GetFibonacci(int n);
-        int GetJacobsthal(int n);
-        int GetLucas(int n);
-        int GetPell(int n);
-        int GetHofstadterQ(int n);
+        string GetFibonacci(int n);
+        string GetJacobsthal(int n);
+        string GetLucas(int n);
+        string GetPell(int n);
+        string GetHofstadterQ(int n);
         double GetLogisticMap(int n);
-        int GetExotic(int n);
+        string GetExotic(int n);
     }
 }
