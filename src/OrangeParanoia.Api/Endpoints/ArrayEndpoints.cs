@@ -8,7 +8,7 @@ namespace OrangeParanoia.Api.Endpoints
         {
             var arrayGroup = app.MapGroup("/array").WithTags("Arrays");
 
-            arrayGroup.MapGet("/random", (IArrayService arrayService, string[] items) =>
+            arrayGroup.MapPost("/random", (IArrayService arrayService, string[] items) =>
             {
                 var randomValue = arrayService.GetRandomValue(items);
                 return Results.Ok(randomValue);
