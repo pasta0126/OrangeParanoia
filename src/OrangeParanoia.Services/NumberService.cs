@@ -1,56 +1,97 @@
 ﻿using OrangeParanoia.Services.Interfaces;
+using System;
 
 namespace OrangeParanoia.Services
 {
     public class NumberService : INumberService
     {
         private static readonly Random _random = new();
+        private const double InclusiveThreshold = 0.999999;
 
         public T GetRandomNumber<T>(T? min = null, T? max = null) where T : struct, IComparable<T>
         {
+            try
+            {
+                var (dmin, dmax, sample) = GetCommonValues<T>(min, max);
+
+                if (typeof(T) == typeof(int))
+                {
+                    int intMin = min.HasValue ? (int)(object)min.Value : 0;
+                    int intMax = max.HasValue ? (int)(object)max.Value : 1000000;
+                    int intResult = intMin + (int)Math.Floor(sample * ((long)intMax - intMin + 1));
+                    return (T)(object)intResult;
+                }
+                else if (typeof(T) == typeof(decimal))
+                {
+                    if (dmax == 1 && sample > InclusiveThreshold)
+                        return (T)(object)1m;
+                    decimal result = (decimal)dmin + (decimal)sample * ((decimal)dmax - (decimal)dmin);
+                    return (T)(object)result;
+                }
+                else if (typeof(T) == typeof(double))
+                {
+                    if (dmax == 1 && sample > InclusiveThreshold)
+                        return (T)(object)1.0;
+                    double result = dmin + sample * (dmax - dmin);
+                    return (T)(object)result;
+                }
+                else if (typeof(T) == typeof(float))
+                {
+                    if (dmax == 1 && sample > InclusiveThreshold)
+                        return (T)(object)1f;
+                    float result = (float)(dmin + sample * (dmax - dmin));
+                    return (T)(object)result;
+                }
+                return default;
+            }
+            catch (Exception)
+            {
+                return default;
+            }
+        }
+
+        private (double dmin, double dmax, double sample) GetCommonValues<T>(T? min, T? max) where T : struct, IComparable<T>
+        {
+            double sample = _random.NextDouble();
+            double dmin, dmax;
+
             if (typeof(T) == typeof(int))
             {
-                int minValue = min.HasValue ? (int)(object)min.Value : int.MinValue;
-                int maxValue = max.HasValue ? (int)(object)max.Value : int.MaxValue;
-                int result = _random.Next(minValue, maxValue);
-                return (T)(object)result;
+                dmin = min.HasValue ? Convert.ToDouble((int)(object)min.Value) : 0;
+                dmax = max.HasValue ? Convert.ToDouble((int)(object)max.Value) : 1000000;
             }
-
-            if (typeof(T) == typeof(decimal))
+            else if (typeof(T) == typeof(decimal))
             {
-                decimal minValue = min.HasValue ? (decimal)(object)min.Value : decimal.MinValue;
-                decimal maxValue = max.HasValue ? (decimal)(object)max.Value : decimal.MaxValue;
-                double sample = _random.NextDouble();
-                decimal result = minValue + (decimal)sample * (maxValue - minValue);
-                return (T)(object)result;
+                dmin = min.HasValue ? Convert.ToDouble((decimal)(object)min.Value) : 0;
+                dmax = max.HasValue ? Convert.ToDouble((decimal)(object)max.Value) : 1;
             }
-
-            if (typeof(T) == typeof(double))
+            else if (typeof(T) == typeof(double))
             {
-                double minValue = min.HasValue ? (double)(object)min.Value : double.MinValue;
-                double maxValue = max.HasValue ? (double)(object)max.Value : double.MaxValue;
-                double result = minValue + _random.NextDouble() * (maxValue - minValue);
-                return (T)(object)result;
+                dmin = min.HasValue ? (double)(object)min.Value : 0;
+                dmax = max.HasValue ? (double)(object)max.Value : 1;
             }
-
-            if (typeof(T) == typeof(float))
+            else if (typeof(T) == typeof(float))
             {
-                float minValue = min.HasValue ? (float)(object)min.Value : float.MinValue;
-                float maxValue = max.HasValue ? (float)(object)max.Value : float.MaxValue;
-                float result = minValue + (float)_random.NextDouble() * (maxValue - minValue);
-                return (T)(object)result;
+                dmin = min.HasValue ? Convert.ToDouble((float)(object)min.Value) : 0;
+                dmax = max.HasValue ? Convert.ToDouble((float)(object)max.Value) : 1;
+            }
+            else
+            {
+                dmin = 0;
+                dmax = 1;
             }
 
-            return default;
+            return (dmin, dmax, sample);
         }
 
         public decimal GetRandomDecimalInRange(decimal min = 0, decimal max = 1, int decimals = 2)
         {
             if (decimals < 0)
                 decimals = 2;
-
-            decimal randomValue = min + ((decimal)_random.NextDouble() * (max - min));
-
+            double sample = _random.NextDouble();
+            if (max == decimal.MaxValue && sample > InclusiveThreshold)
+                return max;
+            decimal randomValue = min + ((decimal)sample * (max - min));
             return Math.Round(randomValue, decimals);
         }
     }
