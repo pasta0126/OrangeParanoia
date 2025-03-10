@@ -55,13 +55,13 @@ app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
     options.DocumentTitle = "Orange Paranoia";
+    options.RoutePrefix = string.Empty;
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "Orange Paranoia API v1");
 });
 app.UseHttpsRedirection();
 
 app.UseRouting();
 app.UseCors();
-app.UseAuthentication();
-app.UseAuthorization();
 
 // Endpoints
 app.MapNumberEndpoints();
