@@ -24,6 +24,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IDateService, DateService>();
 builder.Services.AddScoped<IUtilityService, UtilityService>();
+builder.Services.AddScoped<IProgressionService, ProgressionService>();
 
 var app = builder.Build();
 
@@ -40,5 +41,6 @@ app.UseAuthorization();
 app.MapNumberEndpoints();
 app.MapDateEndpoints();
 app.MapUtilityEndpoints();
+app.MapProgressionEndpoints();
 
 app.Run();
