@@ -50,12 +50,12 @@ Endpoints in the **Cards** group generate random card selections from various de
 - **GET /card/tarot**  
   Returns a list of randomly selected Tarot cards (including the card number and name) in English.  
   **Query Parameter:**  
-  - `count` (integer): Number of cards to return (minimum 1, maximum 3).
+  - `count` (integer): Number of cards to return (minimum 1, maximum is the deck size).
 
 - **GET /card/poker**  
   Returns a list of randomly selected Poker cards in English.  
   **Query Parameter:**  
-  - `count` (integer): Number of cards to return (minimum 1, maximum 5).
+  - `count` (integer): Number of cards to return (minimum 1, maximum is the deck size).
 
 - **GET /card/spanish**  
   Returns a list of randomly selected Spanish deck cards in Spanish.  
