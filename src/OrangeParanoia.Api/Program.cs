@@ -49,6 +49,7 @@ builder.Services.AddScoped<IUtilityService, UtilityService>();
 builder.Services.AddScoped<IProgressionService, ProgressionService>();
 builder.Services.AddScoped<IArrayService, ArrayService>();
 builder.Services.AddScoped<IAnswerService, AnswerService>();
+builder.Services.AddScoped<ICardService, CardService>();
 
 var app = builder.Build();
 
@@ -71,5 +72,6 @@ app.MapUtilityEndpoints();
 app.MapProgressionEndpoints();
 app.MapArrayEndpoints();
 app.MapAnswerEndpoints();
+app.MapCardEndpoints();
 
 app.Run();
