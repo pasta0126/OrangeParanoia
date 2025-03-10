@@ -25,6 +25,7 @@ builder.Services.AddScoped<INumberService, NumberService>();
 builder.Services.AddScoped<IDateService, DateService>();
 builder.Services.AddScoped<IUtilityService, UtilityService>();
 builder.Services.AddScoped<IProgressionService, ProgressionService>();
+builder.Services.AddScoped<IArrayService, ArrayService>();
 
 var app = builder.Build();
 
@@ -42,5 +43,6 @@ app.MapNumberEndpoints();
 app.MapDateEndpoints();
 app.MapUtilityEndpoints();
 app.MapProgressionEndpoints();
+app.MapArrayEndpoints();
 
 app.Run();
