@@ -1,6 +1,7 @@
 using OrangeParanoia.Api.Endpoints;
 using OrangeParanoia.Services.Interfaces;
 using OrangeParanoia.Services;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,7 +19,28 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "v1";
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Title = "Orange Paranoia API",
+        Version = version,
+        Description = "Orange Paranoia is a versatile API for generating random values and data models.",
+        Contact = new Microsoft.OpenApi.Models.OpenApiContact
+        {
+            Name = "pasta0126",
+            Email = "pasta0126@gmail.com"
+        },
+        License = new Microsoft.OpenApi.Models.OpenApiLicense
+        {
+            Name = "The Unlicense",
+            Url = new Uri("https://unlicense.org/")
+        }
+    });
+});
 
 // Services
 builder.Services.AddScoped<INumberService, NumberService>();
@@ -30,7 +52,10 @@ builder.Services.AddScoped<IArrayService, ArrayService>();
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerUI(options =>
+{
+    options.DocumentTitle = "Orange Paranoia";
+});
 app.UseHttpsRedirection();
 
 app.UseRouting();
