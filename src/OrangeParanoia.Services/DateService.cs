@@ -11,44 +11,86 @@ namespace OrangeParanoia.Services
 
         public string GetFutureDate(string? mask = null)
         {
-            mask ??= DefaultDateFormat;
-            DateOnly futureDate = DateOnly.FromDateTime(DateTime.Now.AddDays(_random.Next(1, 366)));
-            return futureDate.ToString(mask);
+            try
+            {
+                mask ??= DefaultDateFormat;
+                DateOnly futureDate = DateOnly.FromDateTime(DateTime.Now.AddDays(_random.Next(1, 366)));
+                return futureDate.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
         }
 
         public string GetPastDate(string? mask = null)
         {
-            mask ??= DefaultDateFormat;
-            DateOnly pastDate = DateOnly.FromDateTime(DateTime.Now.AddDays(-_random.Next(1, 366)));
-            return pastDate.ToString(mask);
+            try
+            {
+                mask ??= DefaultDateFormat;
+                DateOnly pastDate = DateOnly.FromDateTime(DateTime.Now.AddDays(-_random.Next(1, 366)));
+                return pastDate.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
         }
 
         public string GetFutureTime(string? mask = null)
         {
-            mask ??= DefaultTimeFormat;
-            TimeOnly futureTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(_random.Next(1, 25)));
-            return futureTime.ToString(mask);
+            try
+            {
+                mask ??= DefaultTimeFormat;
+                TimeOnly futureTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(_random.Next(1, 25)));
+                return futureTime.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
         }
 
         public string GetPastTime(string? mask = null)
         {
-            mask ??= DefaultTimeFormat;
-            TimeOnly pastTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-_random.Next(1, 25)));
-            return pastTime.ToString(mask);
+            try
+            {
+                mask ??= DefaultTimeFormat;
+                TimeOnly pastTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-_random.Next(1, 25)));
+                return pastTime.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
         }
 
         public string GetFutureDateTime(string? mask = null)
         {
-            mask ??= DefaultDateTimeFormat;
-            DateTime futureDateTime = DateTime.Now.AddDays(_random.Next(1, 366)).AddHours(_random.Next(1, 25));
-            return futureDateTime.ToString(mask);
+            try
+            {
+                mask ??= DefaultDateTimeFormat;
+                DateTime futureDateTime = DateTime.Now.AddDays(_random.Next(1, 366)).AddHours(_random.Next(1, 25));
+                return futureDateTime.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
         }
 
         public string GetPastDateTime(string? mask = null)
         {
-            mask ??= DefaultDateTimeFormat;
-            DateTime pastDateTime = DateTime.Now.AddDays(-_random.Next(1, 366)).AddHours(-_random.Next(1, 25));
-            return pastDateTime.ToString(mask);
+            try
+            {
+                mask ??= DefaultDateTimeFormat;
+                DateTime pastDateTime = DateTime.Now.AddDays(-_random.Next(1, 366)).AddHours(-_random.Next(1, 25));
+                return pastDateTime.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
         }
     }
 }

@@ -6,23 +6,53 @@ namespace OrangeParanoia.Api.Endpoints
     {
         public static void MapDateEndpoints(this WebApplication app)
         {
-            app.MapGet("/date/future-date", (IDateService dateService, string? mask) =>
-                dateService.GetFutureDate(mask));
+            app.MapGet("/date/future", (IDateService dateService, string? mask) =>
+            {
+                var result = dateService.GetFutureDate(mask);
+                if (result.StartsWith("Error:"))
+                    return Results.BadRequest(result);
+                return Results.Ok(result);
+            });
 
-            app.MapGet("/date/past-date", (IDateService dateService, string? mask) =>
-                dateService.GetPastDate(mask));
-            
-            app.MapGet("/date/future-time", (IDateService dateService, string? mask) =>
-                dateService.GetFutureTime(mask));
-            
-            app.MapGet("/date/past-time", (IDateService dateService, string? mask) =>
-                dateService.GetPastTime(mask));
-            
-            app.MapGet("/date/future-datetime", (IDateService dateService, string? mask) =>
-                dateService.GetFutureDateTime(mask));
-            
-            app.MapGet("/date/past-datetime", (IDateService dateService, string? mask) =>
-                dateService.GetPastDateTime(mask));
+            app.MapGet("/date/past", (IDateService dateService, string? mask) =>
+            {
+                var result = dateService.GetPastDate(mask);
+                if (result.StartsWith("Error:"))
+                    return Results.BadRequest(result);
+                return Results.Ok(result);
+            });
+
+            app.MapGet("/time/future", (IDateService dateService, string? mask) =>
+            {
+                var result = dateService.GetFutureTime(mask);
+                if (result.StartsWith("Error:"))
+                    return Results.BadRequest(result);
+                return Results.Ok(result);
+            });
+
+            app.MapGet("/time/past", (IDateService dateService, string? mask) =>
+            {
+                var result = dateService.GetPastTime(mask);
+                if (result.StartsWith("Error:"))
+                    return Results.BadRequest(result);
+                return Results.Ok(result);
+            });
+
+            app.MapGet("/datetime/future", (IDateService dateService, string? mask) =>
+            {
+                var result = dateService.GetFutureDateTime(mask);
+                if (result.StartsWith("Error:"))
+                    return Results.BadRequest(result);
+                return Results.Ok(result);
+            });
+
+            app.MapGet("/datetime/past", (IDateService dateService, string? mask) =>
+            {
+                var result = dateService.GetPastDateTime(mask);
+                if (result.StartsWith("Error:"))
+                    return Results.BadRequest(result);
+                return Results.Ok(result);
+            });
         }
     }
 }
