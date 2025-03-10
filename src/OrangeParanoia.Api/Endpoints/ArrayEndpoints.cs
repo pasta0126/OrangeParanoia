@@ -6,7 +6,9 @@ namespace OrangeParanoia.Api.Endpoints
     {
         public static void MapArrayEndpoints(this WebApplication app)
         {
-            app.MapGet("/array/random", (IArrayService arrayService, string[] items) =>
+            var arrayGroup = app.MapGroup("/array").WithTags("Arrays");
+
+            arrayGroup.MapGet("/random", (IArrayService arrayService, string[] items) =>
             {
                 var randomValue = arrayService.GetRandomValue(items);
                 return Results.Ok(randomValue);
