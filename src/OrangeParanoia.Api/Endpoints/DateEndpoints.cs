@@ -23,16 +23,9 @@ namespace OrangeParanoia.Api.Endpoints
             });
 
             var timeGroup = app.MapGroup("/time").WithTags("Time");
-            timeGroup.MapGet("/future", (IDateService dateService, string? mask) =>
+            timeGroup.MapGet("/random", (IDateService dateService, string? mask) =>
             {
-                var result = dateService.GetFutureTime(mask);
-                if (result.StartsWith("Error:"))
-                    return Results.BadRequest(result);
-                return Results.Ok(result);
-            });
-            timeGroup.MapGet("/past", (IDateService dateService, string? mask) =>
-            {
-                var result = dateService.GetPastTime(mask);
+                var result = dateService.GetRandomTime(mask);
                 if (result.StartsWith("Error:"))
                     return Results.BadRequest(result);
                 return Results.Ok(result);

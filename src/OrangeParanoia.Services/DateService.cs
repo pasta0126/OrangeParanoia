@@ -37,27 +37,13 @@ namespace OrangeParanoia.Services
             }
         }
 
-        public string GetFutureTime(string? mask = null)
+        public string GetRandomTime(string? mask = null)
         {
             try
             {
                 mask ??= DefaultTimeFormat;
-                TimeOnly futureTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(_random.Next(1, 25)));
+                TimeOnly futureTime = TimeOnly.FromDateTime(DateTime.Now.AddSeconds(_random.Next(-86400, 86400)));
                 return futureTime.ToString(mask);
-            }
-            catch (Exception ex)
-            {
-                return $"Error: {ex.Message}";
-            }
-        }
-
-        public string GetPastTime(string? mask = null)
-        {
-            try
-            {
-                mask ??= DefaultTimeFormat;
-                TimeOnly pastTime = TimeOnly.FromDateTime(DateTime.Now.AddHours(-_random.Next(1, 25)));
-                return pastTime.ToString(mask);
             }
             catch (Exception ex)
             {
