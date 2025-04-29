@@ -50,6 +50,7 @@ builder.Services.AddScoped<IProgressionService, ProgressionService>();
 builder.Services.AddScoped<IArrayService, ArrayService>();
 builder.Services.AddScoped<IAnswerService, AnswerService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 
 var app = builder.Build();
 
@@ -73,5 +74,6 @@ app.MapProgressionEndpoints();
 app.MapArrayEndpoints();
 app.MapAnswerEndpoints();
 app.MapCardEndpoints();
+app.MapImageEndpoints();
 
 app.Run();
