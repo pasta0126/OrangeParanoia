@@ -8,9 +8,9 @@ namespace OrangeParanoia.Api.Endpoints
         {
             var imageGroup = app.MapGroup("/image").WithTags("Image");
 
-            imageGroup.MapGet("/bitmap", (IImageService imageService, int height, int width, int tileSize = 50) =>
+            imageGroup.MapGet("/bmp", (IImageService imageService, int width, int height, int tileSize = 50) =>
             {
-                var imageBytes = imageService.GenerateRandomBitmap(height, width, tileSize);
+                var imageBytes = imageService.GenerateRandomBitmap(width, height, tileSize);
                 return Results.File(
                     fileContents: imageBytes,
                     contentType: "image/bmp",
@@ -19,6 +19,25 @@ namespace OrangeParanoia.Api.Endpoints
             })
             .Produces<byte[]>(StatusCodes.Status200OK, "image/bmp")
             .WithName("GetRandomBitmap");
+
+            imageGroup.MapGet("/png/rgb", (IImageService imageService, int width, int height, int tileSize = 32, int delta = 30) =>
+            {
+                var pngBytes = imageService.GeneratePngRGB(width, height, tileSize, delta);
+                return Results.File(pngBytes, "image/png",
+                    fileDownloadName: $"image_rgb_{width}x{height}_{tileSize}_{delta}.png");
+            })
+            .Produces<byte[]>(StatusCodes.Status200OK, "image/png")
+            .WithName("GetRandomPngRgb");
+
+            imageGroup.MapGet("/png/hsv", (IImageService imageService, int width, int height, int tileSize = 32, float maxHueStep = 15f) =>
+            {
+                var pngBytes = imageService.GeneratePngHSV(width, height, tileSize, maxHueStep);
+                return Results.File(pngBytes, "image/png",
+                    fileDownloadName: $"image_hsv_{width}x{height}_{tileSize}_{maxHueStep:F1}.png");
+            })
+            .Produces<byte[]>(StatusCodes.Status200OK, "image/png")
+            .WithName("GetRandomPngHsv");
+
         }
     }
 }
