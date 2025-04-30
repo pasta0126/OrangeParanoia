@@ -8,16 +8,22 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeReferencedProjects>true</IncludeReferencedProjects>
 		<PackageId>OrangeParanoia</PackageId>
-		<Version>1.0.1</Version>
+		<Version>1.2.0</Version>
 		<Authors>pasta0126</Authors>
 		<Company>MicroIsla</Company>
+
 		<Description>
 			OrangeParanoia is a .NET 8 library that makes it easy to generate random data. It includes Magic 8 Ball-style answers, numerical values, dates, cards, mathematical progressions, colors, and more.
 		</Description>
-		<PackageTags>
-			random;data-generation;dummy-data;test-data;utilities;net8;orangeparanoia
-		</PackageTags>
+		<PackageTags>random;data-generation;dummy-data;test-data;utilities;net8;orangeparanoia</PackageTags>
 		<RepositoryUrl>https://github.com/pasta0126/interplanetary-resources-agency.git</RepositoryUrl>
+
+		<PackageLicenseExpression>Unlicense</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 </Project>
