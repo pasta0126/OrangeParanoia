@@ -220,7 +220,7 @@ The **Star Wars** group provides name generators for Jedi, Sith, and Droids:
 
 ## Usage
 
-To use the API, call the desired endpoint using HTTP client (Postman, curl, browser). Swagger UI is available at `/swagger` for interactive testing and documentation.
+You can test and consume the API interactively at [https://orp.zapp.cat/](https://orp.zapp.cat/index.html).
 
 Include the NuGet package `OrangeParanoia` in your .NET project to access the same generators in code:
 
