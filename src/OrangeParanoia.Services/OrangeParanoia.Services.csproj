@@ -8,7 +8,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeReferencedProjects>true</IncludeReferencedProjects>
 		<PackageId>OrangeParanoia</PackageId>
-		<Version>1.2.0</Version>
+		<Version>1.2.1</Version>
 		<Authors>pasta0126</Authors>
 		<Company>MicroIsla</Company>
 
