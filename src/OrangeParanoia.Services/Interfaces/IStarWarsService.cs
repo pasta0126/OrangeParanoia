@@ -11,5 +11,10 @@
         string SithNameMethod1(string realName, string emotion, string virtue);
         string SithNameMethod2(string ambition, string realName, string weakness, string parentName);
         string SithNameMethod3(string realName, string emotion);
+        string DroidNameAstromech(int birthMonth, int birthDay);
+        string DroidNameProtocol(string firstName, int age);
+        string DroidNameRandom(string firstName, string lastName);
+        string DroidNameFullSerial(string seriesPrefix);
+        string DroidNameShortened(string seriesPrefix);
     }
 }

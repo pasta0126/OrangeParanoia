@@ -108,6 +108,49 @@ namespace OrangeParanoia.Services
             return $"{Capitalize(first)} {Capitalize(second)}";
         }
 
+        public string DroidNameAstromech(int birthMonth, int birthDay)
+        {
+            return $"R{birthMonth}-{birthDay}";
+        }
+
+        public string DroidNameProtocol(string firstName, int age)
+        {
+            if (string.IsNullOrWhiteSpace(firstName)) return string.Empty;
+            var initial = char.ToUpperInvariant(firstName[0]);
+            var series = age % 10;
+            return $"{initial}-{series}PO";
+        }
+
+        public string DroidNameRandom(string firstName, string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+                return string.Empty;
+
+            var rnd = new Random((firstName + lastName).GetHashCode());
+            var number = rnd.Next(100, 1000);
+            var i1 = char.ToUpperInvariant(firstName[0]);
+            var i2 = char.ToUpperInvariant(lastName[0]);
+            return $"{i1}{i2}-{number}";
+        }
+
+        public string DroidNameFullSerial(string seriesPrefix)
+        {
+            var guid = Guid.NewGuid().ToString("N").ToUpperInvariant();
+            return $"{seriesPrefix}-{guid}";
+        }
+
+        public string DroidNameShortened(string seriesPrefix)
+        {
+            var full = DroidNameFullSerial(seriesPrefix);
+            var parts = full.Split('-', 2);
+            if (parts.Length == 2 && parts[1].Length >= 2)
+            {
+                var shortId = parts[1].Substring(0, 2);
+                return $"{parts[0]}-{shortId}";
+            }
+            return full;
+        }
+
         private static string Capitalize(string s)
         {
             return string.IsNullOrEmpty(s)

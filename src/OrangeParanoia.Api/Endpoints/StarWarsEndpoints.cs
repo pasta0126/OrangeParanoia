@@ -36,6 +36,22 @@ namespace OrangeParanoia.Api.Endpoints
 
             sithGroup.MapGet("/method3", (IStarWarsService svc, string realName, string emotion) =>
                 Results.Ok(svc.SithNameMethod3(realName, emotion)));
+
+            var droidGroup = starWarsGroup.MapGroup("/droid");
+            droidGroup.MapGet("/astromech", (IStarWarsService svc, int birthMonth, int birthDay) =>
+                Results.Ok(svc.DroidNameAstromech(birthMonth, birthDay)));
+
+            droidGroup.MapGet("/protocol", (IStarWarsService svc, string firstName, int age) =>
+                Results.Ok(svc.DroidNameProtocol(firstName, age)));
+
+            droidGroup.MapGet("/random", (IStarWarsService svc, string firstName, string lastName) =>
+                Results.Ok(svc.DroidNameRandom(firstName, lastName)));
+
+            droidGroup.MapGet("/fullserial", (IStarWarsService svc, string seriesPrefix) =>
+            Results.Ok(svc.DroidNameFullSerial(seriesPrefix)));
+            
+            droidGroup.MapGet("/short", (IStarWarsService svc, string seriesPrefix) =>
+                Results.Ok(svc.DroidNameShortened(seriesPrefix)));
         }
     }
 }
