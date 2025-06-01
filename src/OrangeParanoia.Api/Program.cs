@@ -20,7 +20,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 
-var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "v1";
+// Tomamos la versión de OrangeParanoia.Services
+var version = typeof(IImageService).Assembly.GetName().Version?.ToString() ??
+    Assembly.GetExecutingAssembly().GetName().Version?.ToString() ??
+    "V1";
 
 builder.Services.AddSwaggerGen(options =>
 {
