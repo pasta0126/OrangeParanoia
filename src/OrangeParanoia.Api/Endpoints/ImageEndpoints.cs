@@ -33,49 +33,49 @@ namespace OrangeParanoia.Api.Endpoints
 
             imageGroup.MapGet("/png/rgb", (IImageService imageService, int width, int height, int tileSize = 32, int delta = 30) =>
             {
-                var pngBytes = imageService.GeneratePngRGB(width, height, tileSize, delta);
+                var pngBytes = imageService.GeneratePngRGBNative(width, height, tileSize, delta);
                 return Results.File(
                     fileContents: pngBytes,
                     contentType: "image/png"
                 );
             })
             .Produces<byte[]>(StatusCodes.Status200OK, "image/png")
-            .WithName("GetRandomPngRgbInline");
+            .WithName("GetNativePngRgbInline");
 
             imageGroup.MapGet("/png/rgb/download", (IImageService imageService, int width, int height, int tileSize = 32, int delta = 30) =>
             {
-                var pngBytes = imageService.GeneratePngRGB(width, height, tileSize, delta);
+                var pngBytes = imageService.GeneratePngRGBNative(width, height, tileSize, delta);
                 return Results.File(
                     fileContents: pngBytes,
                     contentType: "image/png",
-                    fileDownloadName: $"image_rgb_{width}x{height}_{tileSize}_{delta}.png"
+                    fileDownloadName: $"image_native_rgb_{width}x{height}_{tileSize}_{delta}.png"
                 );
             })
             .Produces<byte[]>(StatusCodes.Status200OK, "image/png")
-            .WithName("GetRandomPngRgbDownload");
+            .WithName("GetNativePngRgbDownload");
 
             imageGroup.MapGet("/png/hsv", (IImageService imageService, int width, int height, int tileSize = 32, float maxHueStep = 15f) =>
             {
-                var pngBytes = imageService.GeneratePngHSV(width, height, tileSize, maxHueStep);
+                var pngBytes = imageService.GeneratePngHSVNative(width, height, tileSize, maxHueStep);
                 return Results.File(
                     fileContents: pngBytes,
                     contentType: "image/png"
                 );
             })
             .Produces<byte[]>(StatusCodes.Status200OK, "image/png")
-            .WithName("GetRandomPngHsvInline");
+            .WithName("GetNativePngHsvInline");
 
             imageGroup.MapGet("/png/hsv/download", (IImageService imageService, int width, int height, int tileSize = 32, float maxHueStep = 15f) =>
             {
-                var pngBytes = imageService.GeneratePngHSV(width, height, tileSize, maxHueStep);
+                var pngBytes = imageService.GeneratePngHSVNative(width, height, tileSize, maxHueStep);
                 return Results.File(
                     fileContents: pngBytes,
                     contentType: "image/png",
-                    fileDownloadName: $"image_hsv_{width}x{height}_{tileSize}_{maxHueStep:F1}.png"
+                    fileDownloadName: $"image_native_hsv_{width}x{height}_{tileSize}_{maxHueStep:F1}.png"
                 );
             })
             .Produces<byte[]>(StatusCodes.Status200OK, "image/png")
-            .WithName("GetRandomPngHsvDownload");
+            .WithName("GetNativePngHsvDownload");
         }
     }
 }

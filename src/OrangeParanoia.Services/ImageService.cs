@@ -1,11 +1,13 @@
 ﻿using OrangeParanoia.Services.Interfaces;
 using OrangeParanoia.Services.Utilities;
+using System.Net.NetworkInformation;
 
 namespace OrangeParanoia.Services
 {
     public class ImageService : IImageService
     {
         private readonly Random _random = new();
+
         private static int Clamp(int v, int lo, int hi) => v < lo ? lo : v > hi ? hi : v;
 
         public byte[] GenerateRandomBitmap(int width, int height, int tileSize = 32)
@@ -81,82 +83,121 @@ namespace OrangeParanoia.Services
             return ms.ToArray();
         }
 
-        public byte[] GeneratePngRGB(int width, int height, int tileSize = 32, int delta = 30)
+        public byte[] GeneratePngRGBNative(int width, int height, int tileSize = 32, int delta = 30)
         {
             var buffer = new (byte B, byte G, byte R)[height, width];
             var rnd = new Random();
-
             int prevR = rnd.Next(256), prevG = rnd.Next(256), prevB = rnd.Next(256);
 
             for (int y = 0; y < height;)
             {
                 int h = Math.Min(tileSize, height - y);
+
                 for (int x = 0; x < width;)
                 {
                     prevR = Clamp(prevR + rnd.Next(-delta, delta + 1), 0, 255);
                     prevG = Clamp(prevG + rnd.Next(-delta, delta + 1), 0, 255);
                     prevB = Clamp(prevB + rnd.Next(-delta, delta + 1), 0, 255);
 
-                    for (int yy = y; yy < y + h; yy++)
-                        for (int xx = x; xx < x + Math.Min(tileSize, width - x); xx++)
-                            buffer[yy, xx] = ((byte)prevB, (byte)prevG, (byte)prevR);
+                    int w = Math.Min(tileSize, width - x);
 
+                    for (int yy = y; yy < y + h; yy++)
+                    {
+                        for (int xx = x; xx < x + w; xx++)
+                        {
+                            buffer[yy, xx] = ((byte)prevB, (byte)prevG, (byte)prevR);
+                        }
+                    }
                     x += tileSize;
                 }
+
                 y += tileSize;
             }
 
-            var rgb = new byte[width * height * 3];
+            byte[] pixelData = new byte[width * height * 4];
             int idx = 0;
+
             for (int yy = 0; yy < height; yy++)
+            {
                 for (int xx = 0; xx < width; xx++)
                 {
                     var (b, g, r) = buffer[yy, xx];
-                    rgb[idx++] = r;
-                    rgb[idx++] = g;
-                    rgb[idx++] = b;
-                }
 
-            return PngEncoder.Encode(rgb, width, height);
+                    pixelData[idx++] = r;
+                    pixelData[idx++] = g;
+                    pixelData[idx++] = b;
+                    pixelData[idx++] = 255; 
+                }
+            }
+
+            string tempPath = Path.GetTempFileName();
+
+            PngEncoder.SavePng(pixelData, width, height, tempPath);
+
+            byte[] pngBytes = File.ReadAllBytes(tempPath);
+
+            File.Delete(tempPath);
+
+            return pngBytes;
         }
 
-        public byte[] GeneratePngHSV(int width, int height, int tileSize = 32, float maxHueStep = 15f)
+        public byte[] GeneratePngHSVNative(int width, int height, int tileSize = 32, float maxHueStep = 15f)
         {
             var buffer = new (byte B, byte G, byte R)[height, width];
             var rnd = new Random();
-
-            float hue = (float)(rnd.NextDouble() * 360);
+            float hue = (float)(rnd.NextDouble() * 360f);
             const float sat = 0.6f, val = 0.9f;
 
             for (int y = 0; y < height;)
             {
                 int h = Math.Min(tileSize, height - y);
+
                 for (int x = 0; x < width;)
                 {
-                    hue = (hue + (float)(rnd.NextDouble() * 2 - 1) * maxHueStep + 360) % 360;
+                    hue = (hue + (float)(rnd.NextDouble() * 2 - 1) * maxHueStep + 360f) % 360f;
                     var (r, g, b) = HsvToRgb(hue, sat, val);
 
+                    int w = Math.Min(tileSize, width - x);
+
                     for (int yy = y; yy < y + h; yy++)
-                        for (int xx = x; xx < x + Math.Min(tileSize, width - x); xx++)
+                    {
+                        for (int xx = x; xx < x + w; xx++)
+                        {
                             buffer[yy, xx] = (b, g, r);
+                        }
+                    }
 
                     x += tileSize;
                 }
+
                 y += tileSize;
             }
 
-            var rgb = new byte[width * height * 3];
+            byte[] pixelData = new byte[width * height * 4];
             int idx = 0;
+
             for (int yy = 0; yy < height; yy++)
+            {
                 for (int xx = 0; xx < width; xx++)
                 {
                     var (b, g, r) = buffer[yy, xx];
-                    rgb[idx++] = r;
-                    rgb[idx++] = g;
-                    rgb[idx++] = b;
-                }
 
-            return PngEncoder.Encode(rgb, width, height);
+                    pixelData[idx++] = r;
+                    pixelData[idx++] = g;
+                    pixelData[idx++] = b;
+                    pixelData[idx++] = 255;
+                }
+            }
+
+            string tempPath = Path.GetTempFileName();
+
+            PngEncoder.SavePng(pixelData, width, height, tempPath);
+
+            byte[] pngBytes = File.ReadAllBytes(tempPath);
+
+            File.Delete(tempPath);
+
+            return pngBytes;
         }
 
         private static (byte r, byte g, byte b) HsvToRgb(float h, float s, float v)
@@ -174,9 +215,9 @@ namespace OrangeParanoia.Services
             else { rp = c; bp = x; }
 
             return (
-                r: (byte)((rp + m) * 255),
-                g: (byte)((gp + m) * 255),
-                b: (byte)((bp + m) * 255)
+                r: (byte)MathF.Round((rp + m) * 255f),
+                g: (byte)MathF.Round((gp + m) * 255f),
+                b: (byte)MathF.Round((bp + m) * 255f)
             );
         }
     }
