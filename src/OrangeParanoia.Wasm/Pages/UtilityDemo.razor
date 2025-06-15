@@ -1,0 +1,43 @@
+﻿@page "/utility"
+@using OrangeParanoia.Services.Interfaces
+@inject IUtilityService UtilityService
+
+<h3>Demo Utility 📊</h3>
+
+<div class="mb-3">
+    <button class="btn btn-primary me-2" @onclick="GetHexColor">HexColor</button>
+    <span>@HexColor</span>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary me-2" @onclick="GetHexColor2">HexColor2</button>
+    <span>@HexColor2</span>
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-primary me-2" @onclick="GetRgbColor">RgbColor</button>
+    <span>@RgbColor</span>
+</div>
+
+<div class="mb-3">
+    <input type="number" step="0.1" min="0" max="1" @bind="Alpha" class="form-control d-inline w-auto me-2" />
+    <button class="btn btn-primary" @onclick="GetRgba">Rgba</button>
+    <span>@RgbaColor</span>
+</div>
+
+@code {
+    string HexColor;
+    string HexColor2;
+    string RgbColor;
+    string RgbaColor;
+    double Alpha = 1.0;
+    string DemoInput = "Demo";
+
+    void GetHexColor() => HexColor = UtilityService.GetHexColor(DemoInput);
+
+    void GetHexColor2() => HexColor2 = UtilityService.GetHexColor2(DemoInput);
+
+    void GetRgbColor() => RgbColor = UtilityService.GetRgbColor(DemoInput);
+
+    void GetRgba() => RgbaColor = UtilityService.GetRgbaColor(DemoInput, Alpha);
+}
