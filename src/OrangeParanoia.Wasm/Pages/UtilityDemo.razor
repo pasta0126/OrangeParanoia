@@ -1,6 +1,8 @@
 ﻿@page "/utility"
 @using OrangeParanoia.Services.Interfaces
 @inject IUtilityService UtilityService
+@inject IDateService DateService
+@inject INumberService NumberService
 
 <h3>Demo Utility 📊</h3>
 
@@ -20,7 +22,6 @@
 </div>
 
 <div class="mb-3">
-    <input type="number" step="0.1" min="0" max="1" @bind="Alpha" class="form-control d-inline w-auto me-2" />
     <button class="btn btn-primary" @onclick="GetRgba">Rgba</button>
     <span>@RgbaColor</span>
 </div>
@@ -30,14 +31,15 @@
     string HexColor2;
     string RgbColor;
     string RgbaColor;
-    double Alpha = 1.0;
-    string DemoInput = "Demo";
 
-    void GetHexColor() => HexColor = UtilityService.GetHexColor(DemoInput);
+    double GetAlpha() => (double)NumberService.GetRandomDecimalInRange(null, null, null);
+    string GetDemoInput() => DateService.GetRandomTime();
 
-    void GetHexColor2() => HexColor2 = UtilityService.GetHexColor2(DemoInput);
+    void GetHexColor() => HexColor = UtilityService.GetHexColor(GetDemoInput());
 
-    void GetRgbColor() => RgbColor = UtilityService.GetRgbColor(DemoInput);
+    void GetHexColor2() => HexColor2 = UtilityService.GetHexColor2(GetDemoInput());
 
-    void GetRgba() => RgbaColor = UtilityService.GetRgbaColor(DemoInput, Alpha);
+    void GetRgbColor() => RgbColor = UtilityService.GetRgbColor(GetDemoInput());
+
+    void GetRgba() => RgbaColor = UtilityService.GetRgbaColor(GetDemoInput(), GetAlpha());
 }
