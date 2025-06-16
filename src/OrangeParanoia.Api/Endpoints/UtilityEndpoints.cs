@@ -11,9 +11,6 @@ namespace OrangeParanoia.Api.Endpoints
             utilityGroup.MapGet("/hexcolor", (IUtilityService utilityService, string? input) =>
                 utilityService.GetHexColor(input ?? string.Empty));
 
-            utilityGroup.MapGet("/hexcolor2", (IUtilityService utilityService, string? input) =>
-                utilityService.GetHexColor2(input ?? string.Empty));
-
             utilityGroup.MapGet("/rgbcolor", (IUtilityService utilityService, string? input) =>
                 utilityService.GetRgbColor(input ?? string.Empty));
 

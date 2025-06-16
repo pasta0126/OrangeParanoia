@@ -10,14 +10,6 @@ namespace OrangeParanoia.Services
         {
             if (string.IsNullOrEmpty(input))
                 return "#000000";
-            byte[] hashBytes = MD5.HashData(Encoding.UTF8.GetBytes(input));
-            return $"#{hashBytes[0]:X2}{hashBytes[1]:X2}{hashBytes[2]:X2}";
-        }
-
-        public string GetHexColor2(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return "#000000";
             var hash = SHA256.HashData(Encoding.UTF8.GetBytes(input));
             return $"#{hash[0]:X2}{hash[1]:X2}{hash[2]:X2}";
         }
