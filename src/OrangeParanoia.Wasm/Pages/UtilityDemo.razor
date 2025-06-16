@@ -12,11 +12,6 @@
 </div>
 
 <div class="mb-3">
-    <button class="btn btn-primary me-2" @onclick="GetHexColor2">HexColor2</button>
-    <span>@HexColor2</span>
-</div>
-
-<div class="mb-3">
     <button class="btn btn-primary me-2" @onclick="GetRgbColor">RgbColor</button>
     <span>@RgbColor</span>
 </div>
@@ -28,7 +23,6 @@
 
 @code {
     string HexColor;
-    string HexColor2;
     string RgbColor;
     string RgbaColor;
 
@@ -36,8 +30,6 @@
     string GetDemoInput() => DateService.GetRandomTime();
 
     void GetHexColor() => HexColor = UtilityService.GetHexColor(GetDemoInput());
-
-    void GetHexColor2() => HexColor2 = UtilityService.GetHexColor2(GetDemoInput());
 
     void GetRgbColor() => RgbColor = UtilityService.GetRgbColor(GetDemoInput());
 
