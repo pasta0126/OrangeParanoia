@@ -14,12 +14,14 @@ namespace OrangeParanoia.Api.Endpoints
             cardGroup.MapGet("/poker", (ICardService cardService, int count) =>
                 cardService.GetPokerCards(count));
 
+            cardGroup.MapGet("/uno", (ICardService cardService, int count) =>
+                cardService.GetUnoCards(count));
+
             cardGroup.MapGet("/es/espanola", (ICardService cardService, int count) =>
                 cardService.GetSpanishCards(count));
 
             cardGroup.MapGet("/es/tarot", (ICardService cardService, int count) =>
                 cardService.GetTarotCards(count, true));
-
         }
     }
 }
