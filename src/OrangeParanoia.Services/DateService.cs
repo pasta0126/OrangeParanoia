@@ -9,7 +9,7 @@ namespace OrangeParanoia.Services
         private const string DefaultTimeFormat = "HH:mm:ss";
         private const string DefaultDateTimeFormat = "u";
 
-        public string GetFutureDate(string? mask = null)
+        public string GetFutureDate(string mask = null)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace OrangeParanoia.Services
             }
         }
 
-        public string GetPastDate(string? mask = null)
+        public string GetPastDate(string mask = null)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace OrangeParanoia.Services
             }
         }
 
-        public string GetRandomTime(string? mask = null)
+        public string GetRandomTime(string mask = null)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace OrangeParanoia.Services
             }
         }
 
-        public string GetFutureDateTime(string? mask = null)
+        public string GetFutureDateTime(string mask = null)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace OrangeParanoia.Services
             }
         }
 
-        public string GetPastDateTime(string? mask = null)
+        public string GetPastDateTime(string mask = null)
         {
             try
             {

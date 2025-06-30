@@ -1,30 +1,73 @@
 ﻿using OrangeParanoia.Services.Interfaces;
+using OrangeParanoia.Services.Utilities;
 
 namespace OrangeParanoia.Services
 {
-    public class IdentityService(IArrayService arrayService) : IIdentityService
+    public class IdentityService(IDateService dateService) : IIdentityService
     {
-        public static IdentityData GenerateIdentity()
+        public IdentityData GenerateHumanIdentity(
+            bool WithNobleTitle = false,
+            bool WithTitle = false,
+            bool WithMiddleName = false
+            )
         {
-            return new();
+            var data = new IdentityData();
+
+            data.NobleTitle = WithNobleTitle ? ListHelper.GetRandomValue(data.NobleTitleData) : null;
+            data.Title = WithTitle ? ListHelper.GetRandomValue(data.TitleData) : null;
+
+            var sexWeights = new Dictionary<string, int>
+            {
+                ["Male"] = 45,
+                ["Female"] = 45,
+                ["Other"] = 10
+            };
+
+            var sex = ListHelper.GetRandomWeightedValue(sexWeights);
+            data.Gender = sex;
+
+            if (sex == "Male")
+            {
+                data.Name = ListHelper.GetRandomValue(data.ManNameData);
+            }
+            else if (sex == "Female")
+            {
+                data.Name = ListHelper.GetRandomValue(data.FemaleNameData);
+            }
+            else
+            {
+                var combinedNames = new List<string>(data.ManNameData);
+                combinedNames.AddRange(data.FemaleNameData);
+                data.Name = ListHelper.GetRandomValue(combinedNames);
+                data.Gender = ListHelper.GetRandomValue(data.GenderData);
+            }
+
+            data.MiddleName = WithTitle ? ListHelper.GetRandomValue(data.MiddleNameData) : null;
+            data.LastName = ListHelper.GetRandomValue(data.LastNameData);
+            data.Birthday = DateOnly.Parse(dateService.GetPastDate());
+            data.City = ListHelper.GetRandomValue(data.CityData);
+            data.Company = ListHelper.GetRandomValue(data.CompanyData);
+            data.Department = ListHelper.GetRandomValue(data.DepartmentData);
+
+            return data;
         }
     }
 
     public class IdentityData
     {
-        public string NobleTitle { get; private set; }
-        public string Title { get; private set; }
-        public string Name { get; private set; }
-        public string MiddleName { get; private set; }
-        public string LastName { get; private set; }
-        public string Gender { get; private set; }
+        public string NobleTitle { get; set; }
+        public string Title { get; set; }
+        public string Name { get; set; }
+        public string MiddleName { get; set; }
+        public string LastName { get; set; }
+        public string Gender { get; set; }
         public string FullName => string.Join(" ", new[] { NobleTitle, Title, Name, MiddleName, LastName }
             .Where(s => !string.IsNullOrEmpty(s)));
-        public DateOnly Birthday { get; private set; }
+        public DateOnly Birthday { get; set; }
         public int Age => CalculateAge(Birthday);
-        public string City { get; private set; }
-        public string Company { get; private set; }
-        public string Department { get; private set; }
+        public string City { get; set; }
+        public string Company { get; set; }
+        public string Department { get; set; }
 
         public List<string> CompanyData = [
             "AstraNova Holdings",
@@ -481,11 +524,6 @@ namespace OrangeParanoia.Services
             "Demigender",
             "Androgyne",
         ];
-        
-        public IdentityData()
-        {
-
-        }
 
         private static int CalculateAge(DateOnly birthday)
         {

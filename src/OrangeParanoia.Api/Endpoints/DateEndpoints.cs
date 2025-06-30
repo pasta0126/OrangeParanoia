@@ -7,14 +7,14 @@ namespace OrangeParanoia.Api.Endpoints
         public static void MapDateEndpoints(this WebApplication app)
         {
             var dateGroup = app.MapGroup("/date").WithTags("Date");
-            dateGroup.MapGet("/future", (IDateService dateService, string? mask) =>
+            dateGroup.MapGet("/future", (IDateService dateService, string mask) =>
             {
                 var result = dateService.GetFutureDate(mask);
                 if (result.StartsWith("Error:"))
                     return Results.BadRequest(result);
                 return Results.Ok(result);
             });
-            dateGroup.MapGet("/past", (IDateService dateService, string? mask) =>
+            dateGroup.MapGet("/past", (IDateService dateService, string mask) =>
             {
                 var result = dateService.GetPastDate(mask);
                 if (result.StartsWith("Error:"))
@@ -23,7 +23,7 @@ namespace OrangeParanoia.Api.Endpoints
             });
 
             var timeGroup = app.MapGroup("/time").WithTags("Time");
-            timeGroup.MapGet("/random", (IDateService dateService, string? mask) =>
+            timeGroup.MapGet("/random", (IDateService dateService, string mask) =>
             {
                 var result = dateService.GetRandomTime(mask);
                 if (result.StartsWith("Error:"))
@@ -32,14 +32,14 @@ namespace OrangeParanoia.Api.Endpoints
             });
 
             var dateTimeGroup = app.MapGroup("/datetime").WithTags("DateTime");
-            dateTimeGroup.MapGet("/future", (IDateService dateService, string? mask) =>
+            dateTimeGroup.MapGet("/future", (IDateService dateService, string mask) =>
             {
                 var result = dateService.GetFutureDateTime(mask);
                 if (result.StartsWith("Error:"))
                     return Results.BadRequest(result);
                 return Results.Ok(result);
             });
-            dateTimeGroup.MapGet("/past", (IDateService dateService, string? mask) =>
+            dateTimeGroup.MapGet("/past", (IDateService dateService, string mask) =>
             {
                 var result = dateService.GetPastDateTime(mask);
                 if (result.StartsWith("Error:"))
