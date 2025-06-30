@@ -13,9 +13,6 @@ namespace OrangeParanoia.Services
         {
             var data = new IdentityData();
 
-            data.NobleTitle = WithNobleTitle ? ListHelper.GetRandomValue(data.NobleTitleData) : null;
-            data.Title = WithTitle ? ListHelper.GetRandomValue(data.TitleData) : null;
-
             var sexWeights = new Dictionary<string, int>
             {
                 ["Male"] = 45,
@@ -28,23 +25,38 @@ namespace OrangeParanoia.Services
 
             if (sex == "Male")
             {
-                data.Name = ListHelper.GetRandomValue(data.ManNameData);
+                data.NobleTitle = WithNobleTitle ? ListHelper.GetRandomValue(data.MaleNobleTitleData) : null;
+                data.Title = WithTitle ? ListHelper.GetRandomValue(data.MaleTitleData) : null;
+                data.Name = ListHelper.GetRandomValue(data.MaleNameData);
+                data.MiddleName = WithMiddleName ? ListHelper.GetRandomValue(data.MaleNameData) : null;
             }
             else if (sex == "Female")
             {
+                data.NobleTitle = WithNobleTitle ? ListHelper.GetRandomValue(data.FemaleNobleTitleData) : null;
+                data.Title = WithTitle ? ListHelper.GetRandomValue(data.FemaleTitleData) : null;
                 data.Name = ListHelper.GetRandomValue(data.FemaleNameData);
+                data.MiddleName = WithMiddleName ? ListHelper.GetRandomValue(data.FemaleNameData) : null;
             }
             else
             {
-                var combinedNames = new List<string>(data.ManNameData);
+                var combinedNobleTitles = new List<string>(data.MaleNobleTitleData);
+                combinedNobleTitles.AddRange(data.FemaleNobleTitleData);
+                data.NobleTitle = WithNobleTitle ? ListHelper.GetRandomValue(combinedNobleTitles) : null;
+
+                var combinedTitles = new List<string>(data.MaleTitleData);
+                combinedTitles.AddRange(data.FemaleTitleData);
+                data.Title = WithTitle ? ListHelper.GetRandomValue(combinedTitles) : null;
+
+                var combinedNames = new List<string>(data.MaleNameData);
                 combinedNames.AddRange(data.FemaleNameData);
                 data.Name = ListHelper.GetRandomValue(combinedNames);
+                data.MiddleName = WithMiddleName ? ListHelper.GetRandomValue(combinedNames) : null;
+
                 data.Gender = ListHelper.GetRandomValue(data.GenderData);
             }
 
-            data.MiddleName = WithTitle ? ListHelper.GetRandomValue(data.MiddleNameData) : null;
             data.LastName = ListHelper.GetRandomValue(data.LastNameData);
-            data.Birthday = DateOnly.Parse(dateService.GetPastDate());
+            data.Birthday = DateOnly.Parse(dateService.GetRandomDateByAgeRange());
             data.City = ListHelper.GetRandomValue(data.CityData);
             data.Company = ListHelper.GetRandomValue(data.CompanyData);
             data.Department = ListHelper.GetRandomValue(data.DepartmentData);
@@ -246,9 +258,15 @@ namespace OrangeParanoia.Services
             "Hamburg",
         ];
 
-        public List<string> TitleData =
+        public List<string> MaleTitleData =
         [
             "Mr",
+            "Dr",
+            "Prof",
+        ];
+
+        public List<string> FemaleTitleData =
+        [
             "Mrs",
             "Miss",
             "Ms",
@@ -256,23 +274,21 @@ namespace OrangeParanoia.Services
             "Prof",
         ];
 
-        public List<string> NobleTitleData = [
+
+        public List<string> MaleNobleTitleData = [
             "Duke",
-            "Duchess",
             "Count",
-            "Countess",
             "Baron",
-            "Baroness",
             "Lord",
-            "Lady",
             "Sir",
-            "Dame"
         ];
 
-        public List<string> RaceData = [
-            "Human",
-            "Extraterrestrial",
-            "Android",
+        public List<string> FemaleNobleTitleData = [
+            "Duchess",
+            "Countess",
+            "Baroness",
+            "Lady",
+            "Dame"
         ];
 
         public List<string> FemaleNameData = [
@@ -378,7 +394,7 @@ namespace OrangeParanoia.Services
             "Malia"
         ];
 
-        public List<string> ManNameData = [
+        public List<string> MaleNameData = [
             "Alexandre",
             "Giovanni",
             "Oliver",
@@ -473,25 +489,6 @@ namespace OrangeParanoia.Services
             "Patrick",
             "Jone",
             "Eroni"
-        ];
-
-        public List<string> MiddleNameData = [
-            "Alexander",
-            "Marie",
-            "James",
-            "Elizabeth",
-            "Michael",
-            "Anne",
-            "John",
-            "Grace",
-            "William",
-            "Rose",
-            "David",
-            "Jane",
-            "Thomas",
-            "Louise",
-            "Charles",
-            "Claire"
         ];
 
         public List<string> LastNameData = [

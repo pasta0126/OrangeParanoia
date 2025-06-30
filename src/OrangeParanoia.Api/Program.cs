@@ -55,6 +55,7 @@ builder.Services.AddScoped<IAnswerService, AnswerService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IStarWarsService, StarWarsService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
 
 var app = builder.Build();
 
@@ -80,5 +81,6 @@ app.MapAnswerEndpoints();
 app.MapCardEndpoints();
 app.MapImageEndpoints();
 app.MapStarWarsEndpoints();
+app.MapIdentityEndpoints();
 
 app.Run();

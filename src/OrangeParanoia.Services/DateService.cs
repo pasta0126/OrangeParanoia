@@ -37,6 +37,32 @@ namespace OrangeParanoia.Services
             }
         }
 
+        public string GetRandomDateByAgeRange(int minAge = 18, int? maxAge = 120, string mask = null)
+        {
+            try
+            {
+                mask ??= DefaultDateFormat;
+                var now = DateTime.Now;
+
+                if (maxAge == null || maxAge < minAge)
+                {
+                    maxAge = minAge; 
+                }
+
+                var youngest = now.AddYears(-minAge);
+                var oldest = now.AddYears(-maxAge.Value);
+                var totalDays = (youngest - oldest).Days;
+                var offsetDays = _random.Next(0, totalDays + 1);
+                var randomDate = DateOnly.FromDateTime(oldest.AddDays(offsetDays));
+
+                return randomDate.ToString(mask);
+            }
+            catch (Exception ex)
+            {
+                return $"Error: {ex.Message}";
+            }
+        }
+
         public string GetRandomTime(string mask = null)
         {
             try
